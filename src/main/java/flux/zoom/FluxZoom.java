@@ -40,6 +40,7 @@ public class FluxZoom {
         logger.info("Starting FluxZoom");
 
         FluxZoomConfig.load(new Configuration(evt.getSuggestedConfigurationFile()));
+        FluxZoomNetwork.init();
         if (FluxZoomConfig.enableBaublesSupport && Loader.isModLoaded(FluxZoomConfig.BAUBLES_MODID)) {
             BaublesSupport.registerConfiguredSlot();
         }

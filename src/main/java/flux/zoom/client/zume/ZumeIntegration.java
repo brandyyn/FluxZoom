@@ -28,7 +28,7 @@ public final class ZumeIntegration implements IZumeImplementation {
 
         // Keybind zoom: either globally allowed, or gated by inventory/configured Baubles zoom items.
         if (KeyHandler.keyZoom != null && KeyHandler.keyZoom.getIsKeyPressed()
-                && (FluxZoomConfig.allowZoomWithoutItem || hasZoomItemInInventory())) {
+                && (FluxZoomConfig.canZoomWithoutItem() || hasZoomItemInInventory())) {
             return true;
         }
 
@@ -76,7 +76,7 @@ public final class ZumeIntegration implements IZumeImplementation {
                 return true;
             }
         }
-        return FluxZoomConfig.enableBaublesSupport && Loader.isModLoaded(FluxZoomConfig.BAUBLES_MODID)
+        return FluxZoomConfig.canUseBaublesSupport() && Loader.isModLoaded(FluxZoomConfig.BAUBLES_MODID)
                 && BaublesSupport.hasZoomItemInBaubles(mc.thePlayer);
     }
 

@@ -24,7 +24,7 @@ public final class BaublesSupport {
     }
 
     public static String[] getItemBaubleTypes() {
-        if (!FluxZoomConfig.enableBaublesSupport) {
+        if (!FluxZoomConfig.canUseBaublesSupport()) {
             return new String[0];
         }
         return FluxZoomConfig.getBaubleSlotTypes();

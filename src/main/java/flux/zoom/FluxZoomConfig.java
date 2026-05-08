@@ -20,6 +20,9 @@ public final class FluxZoomConfig {
     public static boolean addZoomBaublesSlot = true;
     private static String[] baubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
     private static Configuration loadedConfig;
+    private static boolean effectiveAllowZoomWithoutItem = false;
+    private static boolean effectiveEnableBaublesSupport = true;
+    private static String[] effectiveBaubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
 
     private FluxZoomConfig() {}
 
@@ -76,15 +79,42 @@ public final class FluxZoomConfig {
             baubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
         }
 
+        effectiveEnableBaublesSupport = enableBaublesSupport;
+        effectiveBaubleSlotTypes = copySlotTypes(baubleSlotTypes);
+
         if (config.hasChanged()) {
             config.save();
         }
     }
 
     public static String[] getBaubleSlotTypes() {
-        String[] copy = new String[baubleSlotTypes.length];
-        System.arraycopy(baubleSlotTypes, 0, copy, 0, baubleSlotTypes.length);
-        return copy;
+        return copySlotTypes(effectiveBaubleSlotTypes);
+    }
+
+    public static boolean canZoomWithoutItem() {
+        return effectiveAllowZoomWithoutItem;
+    }
+
+    public static void setServerAllowZoomWithoutItem(boolean enabled) {
+        effectiveAllowZoomWithoutItem = enabled;
+    }
+
+    public static boolean canUseBaublesSupport() {
+        return effectiveEnableBaublesSupport;
+    }
+
+    public static void setServerBaublesConfig(boolean enabled, String[] slotTypes) {
+        effectiveEnableBaublesSupport = enabled;
+        effectiveBaubleSlotTypes = normalizeSlotTypes(slotTypes);
+        if (effectiveBaubleSlotTypes.length == 0) {
+            effectiveBaubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
+        }
+    }
+
+    public static void resetServerAuthoritativeConfig() {
+        effectiveAllowZoomWithoutItem = false;
+        effectiveEnableBaublesSupport = false;
+        effectiveBaubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
     }
 
     public static void setMouseSmoothingWhenZooming(boolean enabled) {
@@ -101,7 +131,7 @@ public final class FluxZoomConfig {
         }
 
         String normalized = normalizeSlotType(slotType);
-        for (String allowedType : baubleSlotTypes) {
+        for (String allowedType : effectiveBaubleSlotTypes) {
             if ("universal".equals(allowedType) || allowedType.equals(normalized)) {
                 return true;
             }
@@ -142,5 +172,11 @@ public final class FluxZoomConfig {
             }
         }
         return false;
+    }
+
+    private static String[] copySlotTypes(String[] slotTypes) {
+        String[] copy = new String[slotTypes.length];
+        System.arraycopy(slotTypes, 0, copy, 0, slotTypes.length);
+        return copy;
     }
 }
