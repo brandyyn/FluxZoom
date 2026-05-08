@@ -2,12 +2,17 @@ package flux.zoom;
 
 import java.util.List;
 
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import baubles.api.expanded.IBaubleExpanded;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import flux.zoom.client.KeyHandler;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +23,11 @@ import net.minecraft.world.World;
 /**
  * Spyglass item that behaves exactly like the binoculars (same zoom rules + keybind support).
  */
-public class ItemSpyglass extends Item {
+@Optional.InterfaceList({
+        @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesSupport.MODID),
+        @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = BaublesSupport.MODID)
+})
+public class ItemSpyglass extends Item implements IBauble, IBaubleExpanded {
 
     public ItemSpyglass() {
         this.setMaxStackSize(1);
@@ -53,4 +62,44 @@ public class ItemSpyglass extends Item {
                             + EnumChatFormatting.GRAY));
         }
     }
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public BaubleType getBaubleType(ItemStack itemStack) {
+        return BaublesSupport.getFallbackBaubleType();
+    }
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public String[] getBaubleTypes(ItemStack itemStack) {
+        return BaublesSupport.getItemBaubleTypes();
+    }
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {}
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public void onEquipped(ItemStack itemStack, EntityLivingBase entity) {}
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public void onUnequipped(ItemStack itemStack, EntityLivingBase entity) {}
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
+        return true;
+    }
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public boolean canUnequip(ItemStack itemStack, EntityLivingBase entity) {
+        return true;
+    }
+
+    @Override
+    @Optional.Method(modid = BaublesSupport.MODID)
+    public void onPlayerLoad(ItemStack itemStack, EntityLivingBase entity) {}
 }

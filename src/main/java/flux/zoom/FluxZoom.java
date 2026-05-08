@@ -1,9 +1,11 @@
 package flux.zoom;
 
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.common.config.Configuration;
 
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -29,15 +31,22 @@ public class FluxZoom {
     
     public static ItemBinoculars itemBinoculars;
     public static ItemSpyglass itemSpyglass;
+    public static ItemGoggles itemGoggles;
     
     @EventHandler
     public static void preInit(FMLPreInitializationEvent evt) {
         logger = evt.getModLog();
         logger.info("Starting FluxZoom");
+
+        FluxZoomConfig.load(new Configuration(evt.getSuggestedConfigurationFile()));
+        if (Loader.isModLoaded(BaublesSupport.MODID)) {
+            BaublesSupport.registerConfiguredSlot();
+        }
         
         logger.info("Registering items");
         itemBinoculars = new ItemBinoculars();
         itemSpyglass = new ItemSpyglass();
+        itemGoggles = new ItemGoggles();
     }
     
     @EventHandler
@@ -52,6 +61,7 @@ public class FluxZoom {
 
         // Simple spyglass recipe (kept intentionally close to vanilla materials).
         GameRegistry.addRecipe(new ShapedOreRecipe(itemSpyglass, new Object[] { " G ", " I ", " S ", 'G', "paneGlassColorless", 'I', "ingotIron", 'S', "stickWood" }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(itemGoggles, new Object[] { "LGL", "S S", 'G', "paneGlassColorless", 'L', "leather", 'S', "string" }));
     }
     
 }

@@ -1,6 +1,9 @@
 package flux.zoom.client.zume;
 
+import cpw.mods.fml.common.Loader;
+import flux.zoom.BaublesSupport;
 import flux.zoom.ItemBinoculars;
+import flux.zoom.ItemGoggles;
 import flux.zoom.ItemSpyglass;
 import flux.zoom.client.KeyHandler;
 import flux.zoom.client.mixin.EntityRendererAccessor;
@@ -21,12 +24,12 @@ public final class ZumeIntegration implements IZumeImplementation {
             return false;
         }
 
-        // Keybind zoom: only if binoculars/spyglass exist somewhere in inventory.
+        // Keybind zoom: only if a zoom item exists somewhere in inventory or configured Baubles slots.
         if (KeyHandler.keyZoom != null && KeyHandler.keyZoom.getIsKeyPressed() && hasZoomItemInInventory()) {
             return true;
         }
 
-        // Right-click zoom: only if holding binoculars/spyglass and holding use-item.
+        // Right-click zoom: only if holding a zoom item and holding use-item.
         final ItemStack held = mc.thePlayer.getHeldItem();
         if (held != null && isZoomItem(held)) {
             return mc.gameSettings.keyBindUseItem.getIsKeyPressed();
@@ -70,10 +73,11 @@ public final class ZumeIntegration implements IZumeImplementation {
                 return true;
             }
         }
-        return false;
+        return Loader.isModLoaded(BaublesSupport.MODID) && BaublesSupport.hasZoomItemInBaubles(mc.thePlayer);
     }
 
     private static boolean isZoomItem(ItemStack stack) {
-        return stack != null && (stack.getItem() instanceof ItemBinoculars || stack.getItem() instanceof ItemSpyglass);
+        return stack != null && (stack.getItem() instanceof ItemBinoculars || stack.getItem() instanceof ItemSpyglass
+                || stack.getItem() instanceof ItemGoggles);
     }
 }

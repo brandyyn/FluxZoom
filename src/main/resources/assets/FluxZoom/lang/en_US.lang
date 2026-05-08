@@ -6,4 +6,12 @@ item.fluxzoom.spyglass.name=Spyglass
 item.fluxzoom.spyglass.desc.1=Scroll to zoom.
 item.fluxzoom.spyglass.desc.2=Hold %s to use from anywhere in inventory.
 
-FluxZoom.keybind.zoom=Use Binoculars
+item.fluxzoom.goggles.name=Goggles
+item.fluxzoom.goggles.desc.1=Scroll to zoom.
+item.fluxzoom.goggles.desc.2=Hold %s to use from anywhere in inventory.
+
+fluxzoom.keybind.zoom=Use Zoom Item
+fluxzoom.keybind.zoom_in=Zoom In
+fluxzoom.keybind.zoom_out=Zoom Out
+key.categories.FluxZoom=FluxZoom
+FluxZoom=FluxZoom

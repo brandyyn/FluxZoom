@@ -6,6 +6,10 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.api.expanded.IBaubleExpanded;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import flux.zoom.client.KeyHandler;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,45 +19,42 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import flux.zoom.client.KeyHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.InterfaceList({
         @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesSupport.MODID),
         @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = BaublesSupport.MODID)
 })
-public class ItemBinoculars extends Item implements IBauble, IBaubleExpanded {
-    
-    public ItemBinoculars() {
+public class ItemGoggles extends Item implements IBauble, IBaubleExpanded {
+
+    public ItemGoggles() {
         this.setMaxStackSize(1);
-        this.setUnlocalizedName(FluxZoom.PREFIX + "binoculars");
-        this.setTextureName(FluxZoom.RESOURCE_PREFIX + "binoculars");
+        this.setUnlocalizedName(FluxZoom.PREFIX + "goggles");
+        this.setTextureName(FluxZoom.RESOURCE_PREFIX + "goggles");
         this.setCreativeTab(CreativeTabs.tabTools);
-        
-        GameRegistry.registerItem(this, "binoculars");
+
+        GameRegistry.registerItem(this, "goggles");
     }
-    
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        // Intentionally do NOT call setItemInUse().
-        // Using an item triggers vanilla "item use" behaviour which slows player movement.
-        // Zoom is handled client-side (key state + held item) in the EventHandler.
         return itemStack;
     }
-    
+
     @Override
     public int getMaxItemUseDuration(ItemStack itemStack) {
         return Integer.MAX_VALUE;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean bool) {
-        list.add(StatCollector.translateToLocal("item.fluxzoom.binoculars.desc.1"));
-        if (KeyHandler.keyZoom.getKeyCode() != 0) {
-            list.add(StatCollector.translateToLocalFormatted("item.fluxzoom.binoculars.desc.2", EnumChatFormatting.AQUA + GameSettings.getKeyDisplayString(KeyHandler.keyZoom.getKeyCode()) + EnumChatFormatting.GRAY));
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced) {
+        list.add(StatCollector.translateToLocal("item.fluxzoom.goggles.desc.1"));
+        if (KeyHandler.keyZoom != null && KeyHandler.keyZoom.getKeyCode() != 0) {
+            list.add(StatCollector.translateToLocalFormatted(
+                    "item.fluxzoom.goggles.desc.2",
+                    EnumChatFormatting.AQUA + GameSettings.getKeyDisplayString(KeyHandler.keyZoom.getKeyCode())
+                            + EnumChatFormatting.GRAY));
         }
     }
 
