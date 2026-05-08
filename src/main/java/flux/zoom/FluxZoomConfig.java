@@ -2,7 +2,6 @@ package flux.zoom;
 
 import java.util.Locale;
 
-import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 
 public final class FluxZoomConfig {
@@ -17,8 +16,6 @@ public final class FluxZoomConfig {
 
     public static void load(Configuration config) {
         config.load();
-
-        boolean removedOldKeys = removeOldBaublesSlotKeys(config);
 
         addZoomBaublesSlot = config.getBoolean(
                 "addZoomBaublesSlot",
@@ -37,7 +34,7 @@ public final class FluxZoomConfig {
             baubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
         }
 
-        if (removedOldKeys || config.hasChanged()) {
+        if (config.hasChanged()) {
             config.save();
         }
     }
@@ -95,16 +92,5 @@ public final class FluxZoomConfig {
             }
         }
         return false;
-    }
-
-    private static boolean removeOldBaublesSlotKeys(Configuration config) {
-        if (!config.hasCategory(CATEGORY_BAUBLES)) {
-            return false;
-        }
-
-        ConfigCategory category = config.getCategory(CATEGORY_BAUBLES);
-        boolean removed = category.remove("addExtraBaublesSlot") != null;
-        removed |= category.remove("extraBaublesSlotType") != null;
-        return removed;
     }
 }
