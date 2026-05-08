@@ -21,8 +21,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({
-        @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesSupport.MODID),
-        @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = BaublesSupport.MODID)
+        @Optional.Interface(iface = "baubles.api.IBauble", modid = FluxZoomConfig.BAUBLES_MODID),
+        @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = FluxZoomConfig.BAUBLES_MODID)
 })
 public class ItemGoggles extends Item implements IBauble, IBaubleExpanded {
 
@@ -59,42 +59,42 @@ public class ItemGoggles extends Item implements IBauble, IBaubleExpanded {
     }
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public BaubleType getBaubleType(ItemStack itemStack) {
         return BaublesSupport.getFallbackBaubleType();
     }
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public String[] getBaubleTypes(ItemStack itemStack) {
         return BaublesSupport.getItemBaubleTypes();
     }
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public void onWornTick(ItemStack itemStack, EntityLivingBase entity) {}
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public void onEquipped(ItemStack itemStack, EntityLivingBase entity) {}
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public void onUnequipped(ItemStack itemStack, EntityLivingBase entity) {}
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public boolean canEquip(ItemStack itemStack, EntityLivingBase entity) {
-        return true;
+        return FluxZoomConfig.enableBaublesSupport;
     }
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public boolean canUnequip(ItemStack itemStack, EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    @Optional.Method(modid = BaublesSupport.MODID)
+    @Optional.Method(modid = FluxZoomConfig.BAUBLES_MODID)
     public void onPlayerLoad(ItemStack itemStack, EntityLivingBase entity) {}
 }

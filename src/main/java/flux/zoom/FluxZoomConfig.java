@@ -6,9 +6,14 @@ import net.minecraftforge.common.config.Configuration;
 
 public final class FluxZoomConfig {
 
-    private static final String CATEGORY_BAUBLES = "baubles";
+    public static final String BAUBLES_MODID = "Baubles|Expanded";
     public static final String ZOOM_BAUBLE_SLOT_TYPE = "zoom";
 
+    private static final String CATEGORY_GENERAL = "general";
+    private static final String CATEGORY_BAUBLES = "baubles";
+
+    public static boolean allowZoomWithoutItem = false;
+    public static boolean enableBaublesSupport = true;
     public static boolean addZoomBaublesSlot = true;
     private static String[] baubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
 
@@ -16,6 +21,18 @@ public final class FluxZoomConfig {
 
     public static void load(Configuration config) {
         config.load();
+
+        allowZoomWithoutItem = config.getBoolean(
+                "allowZoomWithoutItem",
+                CATEGORY_GENERAL,
+                allowZoomWithoutItem,
+                "Allows the zoom keybind to zoom without requiring a FluxZoom item in the player's inventory.");
+
+        enableBaublesSupport = config.getBoolean(
+                "enableBaublesSupport",
+                CATEGORY_BAUBLES,
+                enableBaublesSupport,
+                "Enables FluxZoom integration with Baubles Expanded when Baubles Expanded is installed.");
 
         addZoomBaublesSlot = config.getBoolean(
                 "addZoomBaublesSlot",

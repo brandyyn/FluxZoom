@@ -2,6 +2,7 @@ package flux.zoom.client.zume;
 
 import cpw.mods.fml.common.Loader;
 import flux.zoom.BaublesSupport;
+import flux.zoom.FluxZoomConfig;
 import flux.zoom.ItemBinoculars;
 import flux.zoom.ItemGoggles;
 import flux.zoom.ItemSpyglass;
@@ -24,8 +25,9 @@ public final class ZumeIntegration implements IZumeImplementation {
             return false;
         }
 
-        // Keybind zoom: only if a zoom item exists somewhere in inventory or configured Baubles slots.
-        if (KeyHandler.keyZoom != null && KeyHandler.keyZoom.getIsKeyPressed() && hasZoomItemInInventory()) {
+        // Keybind zoom: either globally allowed, or gated by inventory/configured Baubles zoom items.
+        if (KeyHandler.keyZoom != null && KeyHandler.keyZoom.getIsKeyPressed()
+                && (FluxZoomConfig.allowZoomWithoutItem || hasZoomItemInInventory())) {
             return true;
         }
 
@@ -73,7 +75,8 @@ public final class ZumeIntegration implements IZumeImplementation {
                 return true;
             }
         }
-        return Loader.isModLoaded(BaublesSupport.MODID) && BaublesSupport.hasZoomItemInBaubles(mc.thePlayer);
+        return FluxZoomConfig.enableBaublesSupport && Loader.isModLoaded(FluxZoomConfig.BAUBLES_MODID)
+                && BaublesSupport.hasZoomItemInBaubles(mc.thePlayer);
     }
 
     private static boolean isZoomItem(ItemStack stack) {

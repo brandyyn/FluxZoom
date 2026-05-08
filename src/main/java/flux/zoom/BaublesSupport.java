@@ -9,8 +9,6 @@ import net.minecraft.item.ItemStack;
 
 public final class BaublesSupport {
 
-    public static final String MODID = "Baubles|Expanded";
-
     private BaublesSupport() {}
 
     public static void registerConfiguredSlot() {
@@ -26,6 +24,9 @@ public final class BaublesSupport {
     }
 
     public static String[] getItemBaubleTypes() {
+        if (!FluxZoomConfig.enableBaublesSupport) {
+            return new String[0];
+        }
         return FluxZoomConfig.getBaubleSlotTypes();
     }
 
