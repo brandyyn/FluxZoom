@@ -90,6 +90,6 @@ public final class BaublesSupport {
 
     private static boolean isZoomItem(ItemStack stack) {
         return stack.getItem() instanceof ItemBinoculars || stack.getItem() instanceof ItemSpyglass
-                || stack.getItem() instanceof ItemGoggles;
+                || stack.getItem() instanceof ItemGoggles || stack.getItem() instanceof ItemExplorersScope;
     }
 }

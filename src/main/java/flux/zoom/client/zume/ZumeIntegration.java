@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Loader;
 import flux.zoom.BaublesSupport;
 import flux.zoom.FluxZoomConfig;
 import flux.zoom.ItemBinoculars;
+import flux.zoom.ItemExplorersScope;
 import flux.zoom.ItemGoggles;
 import flux.zoom.ItemSpyglass;
 import flux.zoom.client.KeyHandler;
@@ -81,6 +82,6 @@ public final class ZumeIntegration implements IZumeImplementation {
 
     private static boolean isZoomItem(ItemStack stack) {
         return stack != null && (stack.getItem() instanceof ItemBinoculars || stack.getItem() instanceof ItemSpyglass
-                || stack.getItem() instanceof ItemGoggles);
+                || stack.getItem() instanceof ItemGoggles || stack.getItem() instanceof ItemExplorersScope);
     }
 }

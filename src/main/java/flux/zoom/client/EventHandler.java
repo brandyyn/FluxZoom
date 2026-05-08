@@ -24,6 +24,11 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onMouseScroll(MouseEvent evt) {
+        if (ZumeEngine.attackMouseHook(evt.button, evt.buttonstate)) {
+            evt.setCanceled(true);
+            return;
+        }
+
         if (ZumeEngine.mouseScrollHook(evt.dwheel)) {
             evt.setCanceled(true);
         }

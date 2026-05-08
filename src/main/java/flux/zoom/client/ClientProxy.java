@@ -19,6 +19,9 @@ public class ClientProxy extends CommonProxy {
         if (FluxZoom.itemSpyglass != null) {
             MinecraftForgeClient.registerItemRenderer(FluxZoom.itemSpyglass, renderer);
         }
+        if (FluxZoom.itemExplorersScope != null) {
+            MinecraftForgeClient.registerItemRenderer(FluxZoom.itemExplorersScope, renderer);
+        }
         
         if (Loader.isModLoaded("RenderPlayerAPI")) {
             ModelPlayerAPI.register(FluxZoom.MODID, ModelPlayerCustom.class);

@@ -13,20 +13,45 @@ public final class FluxZoomConfig {
     private static final String CATEGORY_BAUBLES = "baubles";
 
     public static boolean allowZoomWithoutItem = false;
+    public static boolean enableMouseSmoothingWhenZooming = true;
+    public static boolean enablePunchToToggleMouseSmoothing = false;
+    public static boolean savePunchMouseSmoothingToggle = false;
     public static boolean enableBaublesSupport = true;
     public static boolean addZoomBaublesSlot = true;
     private static String[] baubleSlotTypes = new String[] { ZOOM_BAUBLE_SLOT_TYPE };
+    private static Configuration loadedConfig;
 
     private FluxZoomConfig() {}
 
     public static void load(Configuration config) {
         config.load();
+        loadedConfig = config;
 
         allowZoomWithoutItem = config.getBoolean(
                 "allowZoomWithoutItem",
                 CATEGORY_GENERAL,
                 allowZoomWithoutItem,
                 "Allows the zoom keybind to zoom without requiring a FluxZoom item in the player's inventory.");
+
+        enableMouseSmoothingWhenZooming = config.getBoolean(
+                "enableMouseSmoothingWhenZooming",
+                CATEGORY_GENERAL,
+                enableMouseSmoothingWhenZooming,
+                "Enables cinematic mouse smoothing while zooming.");
+
+        enablePunchToToggleMouseSmoothing = config.getBoolean(
+                "enablePunchToToggleMouseSmoothing",
+                CATEGORY_GENERAL,
+                enablePunchToToggleMouseSmoothing,
+                "Allows left-click/punch while zooming to toggle cinematic mouse smoothing on or off. "
+                        + "The punch click is consumed when it toggles smoothing.");
+
+        savePunchMouseSmoothingToggle = config.getBoolean(
+                "savePunchMouseSmoothingToggle",
+                CATEGORY_GENERAL,
+                savePunchMouseSmoothingToggle,
+                "Saves the punch smoothing toggle between zooms and game sessions. "
+                        + "When disabled, each new zoom starts from enableMouseSmoothingWhenZooming.");
 
         enableBaublesSupport = config.getBoolean(
                 "enableBaublesSupport",
@@ -60,6 +85,14 @@ public final class FluxZoomConfig {
         String[] copy = new String[baubleSlotTypes.length];
         System.arraycopy(baubleSlotTypes, 0, copy, 0, baubleSlotTypes.length);
         return copy;
+    }
+
+    public static void setMouseSmoothingWhenZooming(boolean enabled) {
+        enableMouseSmoothingWhenZooming = enabled;
+        if (loadedConfig != null) {
+            loadedConfig.get(CATEGORY_GENERAL, "enableMouseSmoothingWhenZooming", enabled).set(enabled);
+            loadedConfig.save();
+        }
     }
 
     public static boolean isAllowedBaubleSlotType(String slotType) {

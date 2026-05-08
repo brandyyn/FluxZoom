@@ -1,5 +1,6 @@
 package flux.zoom.client.zume;
 
+import flux.zoom.FluxZoomConfig;
 import flux.zoom.client.zume.impl.EasingUtil;
 import flux.zoom.client.zume.impl.MathUtil;
 import flux.zoom.client.zume.impl.ZumeConfig;
@@ -33,6 +34,7 @@ public final class ZumeEngine {
         }
         implementation = impl;
         config = new ZumeConfig();
+        config.enableCinematicZoom = FluxZoomConfig.enableMouseSmoothingWhenZooming;
         zoom.update(config.zoomSmoothnessMs, config.animationEasingExponent);
         disabled = config.disable;
     }
@@ -59,6 +61,10 @@ public final class ZumeEngine {
     }
 
     private static void onZoomActivate() {
+        if (!FluxZoomConfig.savePunchMouseSmoothingToggle) {
+            config.enableCinematicZoom = FluxZoomConfig.enableMouseSmoothingWhenZooming;
+        }
+
         implementation.onZoomActivate();
 
         if (shouldUseFirstPersonZoom()) {
@@ -125,6 +131,22 @@ public final class ZumeEngine {
             return false;
         }
         scrollDelta += MathUtil.sign(wheelDelta);
+        return true;
+    }
+
+    public static boolean attackMouseHook(final int button, final boolean buttonState) {
+        if (!FluxZoomConfig.enablePunchToToggleMouseSmoothing || button != 0 || !buttonState || !isActive()) {
+            return false;
+        }
+
+        config.enableCinematicZoom = !config.enableCinematicZoom;
+        if (FluxZoomConfig.savePunchMouseSmoothingToggle) {
+            FluxZoomConfig.setMouseSmoothingWhenZooming(config.enableCinematicZoom);
+        }
+
+        if (config.enableCinematicZoom && shouldUseFirstPersonZoom()) {
+            implementation.onZoomActivate();
+        }
         return true;
     }
 
