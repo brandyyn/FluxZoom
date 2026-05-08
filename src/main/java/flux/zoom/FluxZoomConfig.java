@@ -14,7 +14,7 @@ public final class FluxZoomConfig {
 
     public static boolean allowZoomWithoutItem = false;
     public static boolean enableMouseSmoothingWhenZooming = true;
-    public static boolean enablePunchToToggleMouseSmoothing = false;
+    public static boolean enablePunchToToggleMouseSmoothing = true;
     public static boolean savePunchMouseSmoothingToggle = false;
     public static boolean enableBaublesSupport = true;
     public static boolean addZoomBaublesSlot = true;
