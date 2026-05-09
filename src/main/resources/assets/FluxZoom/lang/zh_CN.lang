@@ -1,0 +1,9 @@
+item.fluxzoom.binoculars.name=双筒望远镜
+item.fluxzoom.binoculars.desc.1=滚动缩放。
+item.fluxzoom.binoculars.desc.2=按住 %s 可从物品栏任意位置使用。
+
+item.fluxzoom.spyglass.name=单筒望远镜
+item.fluxzoom.spyglass.desc.1=滚动缩放。
+item.fluxzoom.spyglass.desc.2=按住 %s 可从物品栏任意位置使用。
+
+FluxZoom.keybind.zoom=使用望远镜
